@@ -1,0 +1,22 @@
+{
+    "name": "deadem/typograph",
+    "description": "Typograph",
+    "license": "MIT",
+
+    "require": {
+        "php": ">=5.6"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "DJEM\\Typograph": "app/"
+        }
+    },
+
+    "authors": [
+        {
+            "name": "Vladimir Soshkin",
+            "email": "deadem@gmail.com"
+        }
+    ]
+}
