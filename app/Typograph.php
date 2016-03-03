@@ -15,24 +15,15 @@ class Typograph
     private $word = 0;
     private $quotesLevel = 0;
 
-    private function getOpenQuote()
-    {
-        return '&laquo;';
-    }
+    private $replace = [
+      'OpenQuote' => '&laquo;',
+      'CloseQuote' => '&raquo;',
+      'OpenSubQuote' => '&bdquo;',
+      'CloseSubQuote' => '&ldquo;',
+    ];
 
-    private function getCloseQuote()
+    private function __construct()
     {
-        return '&raquo;';
-    }
-
-    private function getOpenSubQuote()
-    {
-        return '&bdquo;';
-    }
-
-    private function getCloseSubQuote()
-    {
-        return '&ldquo;';
     }
 
     private function next($increment = 1, $length = 1)
@@ -46,7 +37,7 @@ class Typograph
 
     private function isSpace($letter)
     {
-        return in_array($letter, [ '', ' ', "\n", "\t", "\r" ]);
+        return preg_match('/[[:space:]]/', $letter) || $letter == '';
     }
 
     private function isPunct($letter)
@@ -75,7 +66,9 @@ class Typograph
             if ($wordLength) {
                 $length = $wordLength;
             }
+
             $next = $this->next($length);
+
             if ((!$this->isSpace($next) && !$this->isPunct($next)) || ($this->isPunct($next) && $this->word == 0)) {
                 $this->map[$this->index] = ($this->quotesLevel == 0) ? [ 'OpenQuote' => $length ] : [ 'OpenSubQuote' => $length ];
                 ++$this->quotesLevel;
@@ -113,7 +106,7 @@ class Typograph
                 $result .= $this->string[$index++];
             } else {
                 foreach ($this->map[$index] as $key => $value) {
-                    $result .= call_user_func([ $this, 'get'.$key]);
+                    $result .= $this->replace[$key];
                     $index += $value;
                 }
             }
