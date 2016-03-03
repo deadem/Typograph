@@ -150,8 +150,8 @@ word word &laquo;quo ted&raquo;
 ("слово")
 (&laquo;слово&raquo;)
 
-asd "test", asd
-asd &laquo;test&raquo;, asd
+<div>asd</div><div>"test"</div>asd
+<div>asd</div><div>&laquo;test&raquo;</div>asd
 
 Неконвертируются &quot;quot&quot; кавычки велочки, адолжны.
 Неконвертируются &laquo;quot&raquo; кавычки велочки, адолжны.
