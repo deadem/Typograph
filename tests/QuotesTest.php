@@ -15,8 +15,8 @@ class QuotesTest extends \PHPUNIT_Framework_Testcase
             } while ($first == '');
             $second = array_shift($values);
 
-            $this->assertEquals(Typograph::parse($first), $second);
-        } while ($first !== null);
+            $this->assertEquals($second, Typograph::parse($first));
+        } while (!empty($values));
     }
 
     private $text = <<<EOF
@@ -24,154 +24,151 @@ class QuotesTest extends \PHPUNIT_Framework_Testcase
 Сегодня будет создан
 
 закон "Сегодня охране".
-закон «Сегодня охране».
+закон &laquo;Сегодня охране&raquo;.
 
 some code to "change". for real
-some code to «change». for real
+some code to &laquo;change&raquo;. for real
 
 сочетание "кавычек"
-сочетание «кавычек»
+сочетание &laquo;кавычек&raquo;
 
 button "English Pages".
-button «English Pages».
+button &laquo;English Pages&raquo;.
 
 button "English Pages"?
-button «English Pages»?
+button &laquo;English Pages&raquo;?
 
 word "go out" doubleword
-word «go out» doubleword
+word &laquo;go out&raquo; doubleword
 
 word "go out"
-word «go out»
+word &laquo;go out&raquo;
 
 "go out!"
-«go out!»
+&laquo;go out!&raquo;
 
 "go out?"
-«go out?»
+&laquo;go out?&raquo;
 
 "go out."
-«go out.»
+&laquo;go out.&raquo;
 
 123 "go out!"
-123 «go out!»
+123 &laquo;go out!&raquo;
 
 123 "go out?"
-123 «go out?»
+123 &laquo;go out?&raquo;
 
 123 "go out."
-123 «go out.»
+123 &laquo;go out.&raquo;
 
 123 "go out!" 123
-123 «go out!» 123
+123 &laquo;go out!&raquo; 123
 
 123 "go out?" 232
-123 «go out?» 232
+123 &laquo;go out?&raquo; 232
 
 123 "go out." 321
-123 «go out.» 321
+123 &laquo;go out.&raquo; 321
 
 "go out!" 123
-«go out!» 123
+&laquo;go out!&raquo; 123
 
 "go out?" 232
-«go out?» 232
+&laquo;go out?&raquo; 232
 
 "go out." 321
-«go out.» 321
+&laquo;go out.&raquo; 321
 
 word "quoted" word
-word «quoted» word
+word &laquo;quoted&raquo; word
 
 "quoted" word word
-«quoted» word word
+&laquo;quoted&raquo; word word
 
 word word "quoted"
-word word «quoted»
+word word &laquo;quoted&raquo;
 
 word "quo ted" word
-word «quo ted» word
+word &laquo;quo ted&raquo; word
 
 "quo ted" word word
-«quo ted» word word
+&laquo;quo ted&raquo; word word
 
 word word "quo ted"
-word word «quo ted»
+word word &laquo;quo ted&raquo;
 
 "Европа-Азия"
-«Европа-Азия»
+&laquo;Европа-Азия&raquo;
 
 "ICQ #"
-«ICQ #»
+&laquo;ICQ #&raquo;
 
 "c:\www\sites\"
-«c:\www\sites\»
+&laquo;c:\www\sites\&raquo;
 
 "Справка 09"
-«Справка 09»
+&laquo;Справка 09&raquo;
 
 "данные:"
-«данные:»
+&laquo;данные:&raquo;
 
 "новый тариф*"
-«новый тариф*»
+&laquo;новый тариф*&raquo;
 
 "Star Flyer Inc."
-«Star Flyer Inc.»
+&laquo;Star Flyer Inc.&raquo;
 
 "слово", слово
-«слово», слово
+&laquo;слово&raquo;, слово
 
 слово, "слово"
-слово, «слово»
+слово, &laquo;слово&raquo;
 
 ОТветь. "бла бла" вап. Бла "ввв"
-ОТветь. «бла бла» вап. Бла «ввв»
+ОТветь. &laquo;бла бла&raquo; вап. Бла &laquo;ввв&raquo;
 
-„Клиника ФГУ «ФБМСЭ» согласно Лицензии“
-«Клиника ФГУ „ФБМСЭ“ согласно Лицензии»
 
 "Приветствуем Вас"
-«Приветствуем Вас»
-
-совместно с художником Рерихом
-совместно с&nbsp;художником Рерихом
+&laquo;Приветствуем Вас&raquo;
 
 Она добавила: "самый любимый "эсмеральда"".
-Она добавила: «самый любимый „эсмеральда“».
+Она добавила: &laquo;самый любимый &bdquo;эсмеральда&ldquo;&raquo;.
 
-"Фирма "Терминал", "ОблСнабВротКомпот"
-«Фирма «Терминал», «ОблСнабВротКомпот»
+"Фирма "Терминал", "ОблСнаб"
+&laquo;Фирма &bdquo;Терминал&ldquo;, &bdquo;ОблСнаб&ldquo;
 
 рассказы "Сердце", "Эвакуация", "Майский жук".
-рассказы «Сердце», «Эвакуация», «Майский жук».
+рассказы &laquo;Сердце&raquo;, &laquo;Эвакуация&raquo;, &laquo;Майский жук&raquo;.
 
 абырвалг: "АААААААБ ЫЫЫРРР "ээээ" алг!" фывфыв
-абырвалг: «АААААААБ ЫЫЫРРР „ээээ“ алг!» фывфыв
+абырвалг: &laquo;АААААААБ ЫЫЫРРР &bdquo;ээээ&ldquo; алг!&raquo; фывфыв
 
 "word "word" word"
-«word „word“ word»
+&laquo;word &bdquo;word&ldquo; word&raquo;
 
 ("слово")
-(«слово»)
+(&laquo;слово&raquo;)
 
-asd"test"asd
-asd «test» asd
+asd "test", asd
+asd &laquo;test&raquo;, asd
 
 Неконвертируются &quot;quot&quot; кавычки велочки, адолжны.
-Неконвертируются «quot» кавычки велочки, адолжны.
+Неконвертируются &laquo;quot&raquo; кавычки велочки, адолжны.
 
-Неконвертируются «всякие« кавычки
-Неконвертируются «всякие» кавычки
+Неконвертируются &laquo;всякие&laquo; кавычки
+Неконвертируются &laquo;всякие&raquo; кавычки
 
-««кавычки»»
-«„кавычки“»
+&laquo;&laquo;кавычки&raquo;&raquo;
+&laquo;&bdquo;кавычки&ldquo;&raquo;
 
 "слово "слово"!"
-«слово „слово“!»
+&laquo;слово &bdquo;слово&ldquo;!&raquo;
 
-<b>"слово"</b> <b>"слово"</b>  
-<b>«слово»</b> <b>«слово»</b>
+<b>"слово"</b> <b>"слово"</b>
+<b>&laquo;слово&raquo;</b> <b>&laquo;слово&raquo;</b>
 
+&bdquo;Клиника ФГУ &laquo;КРЭП&raquo; согласно Лицензии&ldquo;
+&laquo;Клиника ФГУ &bdquo;КРЭП&ldquo; согласно Лицензии&raquo;
 EOF;
 }
