@@ -55,7 +55,20 @@ class Typograph
         return false;
     }
 
-    public function parseText($letter)
+    private function processQuotes($length)
+    {
+        $next = $this->next($length);
+
+        if ((!$this->isSpace($next) && !$this->isPunct($next)) || ($this->isPunct($next) && $this->word == 0)) {
+            $this->map[$this->index] = ($this->quotesLevel == 0) ? [ 'OpenQuote' => $length ] : [ 'OpenSubQuote' => $length ];
+            ++$this->quotesLevel;
+        } else {
+            --$this->quotesLevel;
+            $this->map[$this->index] = ($this->quotesLevel == 0) ? [ 'CloseQuote' => $length ] : [ 'CloseSubQuote' => $length ];
+        }
+    }
+
+    private function parseText($letter)
     {
         $length = 1;
         $wordLength = 0;
@@ -66,16 +79,7 @@ class Typograph
             if ($wordLength) {
                 $length = $wordLength;
             }
-
-            $next = $this->next($length);
-
-            if ((!$this->isSpace($next) && !$this->isPunct($next)) || ($this->isPunct($next) && $this->word == 0)) {
-                $this->map[$this->index] = ($this->quotesLevel == 0) ? [ 'OpenQuote' => $length ] : [ 'OpenSubQuote' => $length ];
-                ++$this->quotesLevel;
-            } else {
-                --$this->quotesLevel;
-                $this->map[$this->index] = ($this->quotesLevel == 0) ? [ 'CloseQuote' => $length ] : [ 'CloseSubQuote' => $length ];
-            }
+            $this->processQuotes($length);
             ++$this->word;
         } elseif ($this->isPunct($letter)) {
             $this->word = 0;
