@@ -26,20 +26,20 @@ class QuotesTest extends \PHPUNIT_Framework_Testcase
 закон "Сегодня охране".
 закон &laquo;Сегодня охране&raquo;.
 
-Сегодня охране охране "сочетание". охране real
-Сегодня охране охране &laquo;сочетание&raquo;. охране real
+Сегодня охране охране "сочетание". охране охране
+Сегодня охране охране &laquo;сочетание&raquo;. охране охране
 
-охране real.
-охране real.
+охране охране.
+охране охране.
 
 сочетание "кавычек"
 сочетание &laquo;кавычек&raquo;
 
-Сегодня "English Pages".
-Сегодня &laquo;English Pages&raquo;.
+Сегодня "English сочетание".
+Сегодня &laquo;English сочетание&raquo;.
 
-Сегодня "English Pages"?
-Сегодня &laquo;English Pages&raquo;?
+Сегодня "English сочетание"?
+Сегодня &laquo;English сочетание&raquo;?
 
 сочетание "сочетание сочетание" doubleсочетание
 сочетание &laquo;сочетание сочетание&raquo; doubleсочетание
@@ -140,8 +140,8 @@ class QuotesTest extends \PHPUNIT_Framework_Testcase
 "Фирма "Терминал", "ОблСнаб"
 &laquo;Фирма &bdquo;Терминал&ldquo;, &bdquo;ОблСнаб&ldquo;
 
-рассказы "Сердце", "Эвакуация", "Майский жук".
-рассказы &laquo;Сердце&raquo;, &laquo;Эвакуация&raquo;, &laquo;Майский жук&raquo;.
+рассказы "Сердце", "Эвакуация", "Майский сочетание".
+рассказы &laquo;Сердце&raquo;, &laquo;Эвакуация&raquo;, &laquo;Майский сочетание&raquo;.
 
 абырвалг: "АААААААБ ЫЫЫРРР "ээээ" алгоритм!" фывфыв
 абырвалг: &laquo;АААААААБ ЫЫЫРРР &bdquo;ээээ&ldquo; алгоритм!&raquo; фывфыв

@@ -17,6 +17,7 @@ class Typograph
     private $smallWordsCount    = 0;
     private $quotesLevel        = 0;
     private $htmlTagStart       = -1;
+    private $lastNowrapIndex    = false;
 
     private $replace = [
       'OpenQuote'       => '&laquo;',
@@ -188,8 +189,14 @@ class Typograph
     {
         static $maxLetters = 6;
 
-        print implode($this->string).' --> '.$this->smallWordPosition.' -- '.$this->smallWordsCount.' --word: '.$this->word."\n";
-        if ($this->smallWordsCount > 0 && (($last && ($this->smallWordsCount > 0)) || $this->word > $maxLetters)) {
+        if ($last && $this->lastNowrapIndex + 1 >= $this->length) {
+            // проверка, чтобы не запускать повторно анализатор, если он уже был вызван на последнем символе
+            return;
+        }
+        $this->lastNowrapIndex = $this->index;
+
+        //print implode($this->string).' --> '.$this->smallWordPosition.' -- '.$this->smallWordsCount.' --word: '.$this->word."\n";
+        if ($this->smallWordsCount > 0 && ($last || $this->word > $maxLetters)) {
             if ($this->smallWordPosition >= 0) {
                 $this->action([ 'OpenNowrap' => 0 ], $this->smallWordPosition);
                 $this->action([ 'CloseNowrap' => 0 ]);
@@ -214,7 +221,6 @@ class Typograph
         if ($letter == '<') {
             return $this->beginHtml($letter);
         } elseif ($this->isSpace($letter)) {
-            print 'space ';
             $this->processNowrap();
             $this->word = 0;
         } elseif ($letter == '"' || $wordLength = $this->isWord([ '&quot;', '&laquo;', '&raquo;', '&bdquo;', '&ldquo;' ])) {
@@ -222,12 +228,8 @@ class Typograph
                 $length = $wordLength;
             }
             $this->processQuotes($length);
-            //++$this->word;
         } elseif ($this->isPunct($letter)) {
-            print 'punct ';
-            if ($letter != '.' && $letter != '?' && $letter != '!') {
-                $this->processNowrap();
-            }
+            $this->processNowrap();
             $this->word = 0;
         } else {
             if ($this->word == 0 && $this->smallWordPosition == -1) {
