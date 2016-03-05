@@ -17,15 +17,15 @@ class Typograph
     private $smallWordsCount    = 0;
     private $quotesLevel        = 0;
     private $htmlTagStart       = -1;
-    private $lastNowrapIndex    = false;
+    private $lastNobrIndex    = false;
 
     private $replace = [
       'OpenQuote'       => '&laquo;',
       'CloseQuote'      => '&raquo;',
       'OpenSubQuote'    => '&bdquo;',
       'CloseSubQuote'   => '&ldquo;',
-      'OpenNowrap'      => '<nowrap>',
-      'CloseNowrap'     => '</nowrap>',
+      'OpenNobr'        => '<nobr>',
+      'CloseNobr'       => '</nobr>',
       'Ignore'          => ''
     ];
 
@@ -96,21 +96,21 @@ class Typograph
         } elseif ($wordLength = $this->isWord([ '<script' ])) {
             $length = $wordLength;
             $this->setState('Script');
-        } elseif ($wordLength = $this->isWord([ '<nowrap' ])) {
+        } elseif ($wordLength = $this->isWord([ '<nobr' ])) {
             $length = $wordLength;
-            $this->setState('Nowrap');
-        } elseif ($this->isWord([ '</nowrap' ])) {
+            $this->setState('Nobr');
+        } elseif ($this->isWord([ '</nobr' ])) {
             $length = $wordLength;
-            $this->setState('Nowrap');
+            $this->setState('Nobr');
         } else {
             $this->setState('Html');
         }
         return $length;
     }
 
-    private function parseNowrap($letter)
+    private function parseNobr($letter)
     {
-        // внутри nowrap не разбираем атрибуты
+        // внутри nobr не разбираем атрибуты
         $length = 1;
         if ($letter == '>') {
             $this->action([ 'Ignore' => $this->index - $this->htmlTagStart + 1 ], $this->htmlTagStart);
@@ -185,21 +185,21 @@ class Typograph
         }
     }
 
-    private function processNowrap($last = false)
+    private function processNobr($last = false)
     {
         static $maxLetters = 6;
 
-        if ($last && $this->lastNowrapIndex + 1 >= $this->length) {
+        if ($last && $this->lastNobrIndex + 1 >= $this->length) {
             // проверка, чтобы не запускать повторно анализатор, если он уже был вызван на последнем символе
             return;
         }
-        $this->lastNowrapIndex = $this->index;
+        $this->lastNobrIndex = $this->index;
 
         // print implode($this->string).' --> '.$this->smallWordPosition.' -- '.$this->smallWordsCount.' --word: '.$this->word."\n";
         if ($this->smallWordsCount > 0 && ($last || $this->word > $maxLetters)) {
             if ($this->smallWordPosition >= 0) {
-                $this->action([ 'OpenNowrap' => 0 ], $this->smallWordPosition);
-                $this->action([ 'CloseNowrap' => 0 ]);
+                $this->action([ 'OpenNobr' => 0 ], $this->smallWordPosition);
+                $this->action([ 'CloseNobr' => 0 ]);
                 $this->smallWordPosition = -1;
                 $this->smallWordsCount = 0;
             }
@@ -221,7 +221,7 @@ class Typograph
         if ($letter == '<') {
             return $this->beginHtml($letter);
         } elseif ($this->isSpace($letter)) {
-            $this->processNowrap();
+            $this->processNobr();
             $this->word = 0;
         } elseif ($letter == '"' || ($letter == '&' && $wordLength = $this->isWord([ '&quot;', '&laquo;', '&raquo;', '&bdquo;', '&ldquo;' ]))) {
             if ($wordLength) {
@@ -229,7 +229,7 @@ class Typograph
             }
             $this->processQuotes($length);
         } elseif ($this->isPunct($letter)) {
-            $this->processNowrap();
+            $this->processNobr();
             $this->word = 0;
         } else {
             if ($this->word == 0 && $this->smallWordPosition == -1) {
@@ -250,7 +250,7 @@ class Typograph
 
             $this->index += call_user_func([ $this, 'parse'.$this->getState() ], $letter);
         }
-        $this->processNowrap(true);
+        $this->processNobr(true);
         return $this->build();
     }
 

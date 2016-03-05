@@ -21,25 +21,25 @@ class NoWrapTest extends \PHPUNIT_Framework_Testcase
 
     private $text = <<<EOF
 О компании
-<nowrap>О компании</nowrap>
+<nobr>О компании</nobr>
 
 кое-как
-<nowrap>кое-как</nowrap>
+<nobr>кое-как</nobr>
 
 Ну, не знаю.
-<nowrap>Ну, не знаю</nowrap>.
+<nobr>Ну, не знаю</nobr>.
 
 ну вот и всё
-<nowrap>ну вот и всё</nowrap>
+<nobr>ну вот и всё</nobr>
 
 Лолики ну вот и всё
-Лолики <nowrap>ну вот и всё</nowrap>
+Лолики <nobr>ну вот и всё</nobr>
 
 Лолики. ну вот и всё
-Лолики. <nowrap>ну вот и всё</nowrap>
+Лолики. <nobr>ну вот и всё</nobr>
 
-<nowrap>О компании</nowrap>
-<nowrap>О компании</nowrap>
+<nobr>О компании</nobr>
+<nobr>О компании</nobr>
 
 Сегодня будет создан
 Сегодня будет создан
@@ -54,10 +54,10 @@ class NoWrapTest extends \PHPUNIT_Framework_Testcase
 &laquo;Европа-Азия&raquo;
 
 "номер ICQ 123"
-&laquo;номер <nowrap>ICQ 123&raquo;</nowrap>
+&laquo;номер <nobr>ICQ 123&raquo;</nobr>
 
 "c:\www\sites\"
-&laquo;<nowrap>c:\www\sites\&raquo;</nowrap>
+&laquo;<nobr>c:\www\sites\&raquo;</nobr>
 
 "Справка 09"
 &laquo;Справка 09&raquo;
@@ -69,7 +69,7 @@ class NoWrapTest extends \PHPUNIT_Framework_Testcase
 &laquo;новый тариф*&raquo;
 
 "Star Flyer Inc."
-&laquo;<nowrap>Star Flyer Inc.&raquo;</nowrap>
+&laquo;<nobr>Star Flyer Inc.&raquo;</nobr>
 
 "слово", слово
 &laquo;слово&raquo;, слово
@@ -78,13 +78,13 @@ class NoWrapTest extends \PHPUNIT_Framework_Testcase
 слово, &laquo;слово&raquo;
 
 Ответчик. "бла бла" вап. Бла "ввв"
-Ответчик. &laquo;<nowrap>бла бла&raquo; вап. Бла &laquo;ввв&raquo;</nowrap>
+Ответчик. &laquo;<nobr>бла бла&raquo; вап. Бла &laquo;ввв&raquo;</nobr>
 
 "Приветствуем Вас"
 &laquo;Приветствуем Вас&raquo;
 
 Она добавила: "самый любимый "эсмеральда"".
-<nowrap>Она добавила</nowrap>: &laquo;самый любимый &bdquo;эсмеральда&ldquo;&raquo;.
+<nobr>Она добавила</nobr>: &laquo;самый любимый &bdquo;эсмеральда&ldquo;&raquo;.
 
 "Фирма "Терминал", "ОблСнаб"
 &laquo;Фирма &bdquo;Терминал&ldquo;, &bdquo;ОблСнаб&ldquo;
@@ -93,7 +93,7 @@ class NoWrapTest extends \PHPUNIT_Framework_Testcase
 рассказы &laquo;Сердце&raquo;, &laquo;Эвакуация&raquo;, &laquo;Майский жук&raquo;.
 
 абырвалг: "АААААААБ ЫЫЫРРР "ээээ" алг!" фывфыв
-абырвалг: &laquo;АААААААБ ЫЫЫРРР &bdquo;ээээ&ldquo; <nowrap>алг!&raquo; фывфыв</nowrap>
+абырвалг: &laquo;АААААААБ ЫЫЫРРР &bdquo;ээээ&ldquo; <nobr>алг!&raquo; фывфыв</nobr>
 
 ("слово")
 (&laquo;слово&raquo;)
@@ -102,7 +102,7 @@ class NoWrapTest extends \PHPUNIT_Framework_Testcase
 <div>asd</div><div>&laquo;test&raquo;</div>asd
 
 Неконвертируются &quot;quot&quot; кавычки велочки, адолжны.
-Неконвертируются &laquo;<nowrap>quot&raquo; кавычки</nowrap> велочки, адолжны.
+Неконвертируются &laquo;<nobr>quot&raquo; кавычки</nobr> велочки, адолжны.
 
 Неконвертируются &laquo;всякие&laquo; кавычки
 Неконвертируются &laquo;всякие&raquo; кавычки
@@ -117,6 +117,6 @@ class NoWrapTest extends \PHPUNIT_Framework_Testcase
 <b>&laquo;слово&raquo;</b> <b>&laquo;слово&raquo;</b>
 
 &bdquo;Клиника ФГУ &laquo;КРЭП&raquo; согласно Лицензии&ldquo;
-&laquo;Клиника <nowrap>ФГУ &bdquo;КРЭП&ldquo;</nowrap> согласно Лицензии&raquo;
+&laquo;Клиника <nobr>ФГУ &bdquo;КРЭП&ldquo;</nobr> согласно Лицензии&raquo;
 EOF;
 }
