@@ -12,7 +12,7 @@ class QuotesTest extends \PHPUNIT_Framework_Testcase
         do {
             do {
                 $first = array_shift($values);
-            } while ($first == '');
+            } while (empty($first));
             $second = array_shift($values);
 
             $this->assertEquals($second, Typograph::parse($first));

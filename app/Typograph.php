@@ -26,6 +26,16 @@ class Typograph
     {
     }
 
+    private function setState($state)
+    {
+        $this->state = $state;
+    }
+
+    private function getState()
+    {
+        return $this->state;
+    }
+
     private function next($increment = 1, $length = 1)
     {
         $result = '';
@@ -68,6 +78,79 @@ class Typograph
         }
     }
 
+    private function beginHtml($letter)
+    {
+        $letter;
+
+        $length = 1;
+        $wordLength = 0;
+        $tag = '';
+
+        if ($wordLength = $this->isWord([ '<!--' ])) {
+            $length = $wordLength;
+            $this->setState('Comment');
+        } elseif ($wordLength = $this->isWord([ '<script' ])) {
+            $length = $wordLength;
+            $this->setState('Script');
+        } else {
+            $this->setState('Html');
+        }
+        return $length;
+    }
+
+    private function parseHtml($letter)
+    {
+        $length = 1;
+        if ($letter == '"') {
+            $this->setState('HtmlQuote');
+        } elseif ($letter == '\'') {
+            $this->setState('HtmlSingleQuote');
+        } elseif ($letter == '>') {
+            $this->setState('Text');
+        }
+        return $length;
+    }
+
+    private function parseHtmlQuote($letter)
+    {
+        $length = 1;
+        if ($letter == '"') {
+            $this->setState('Html');
+        }
+        return $length;
+    }
+
+    private function parseHtmlSingleQuote($letter)
+    {
+        $length = 1;
+        if ($letter == '\'') {
+            $this->setState('Html');
+        }
+        return $length;
+    }
+
+    private function parseComment($letter)
+    {
+        $length = 1;
+        $wordLength = 0;
+        if ($letter == '-' && ($wordLength = $this->isWord([ '-->' ]))) {
+            $length = $wordLength;
+            $this->setState('Text');
+        }
+        return $length;
+    }
+
+    private function parseScript($letter)
+    {
+        $length = 1;
+        $wordLength = 0;
+        if ($letter == '<' && ($wordLength = $this->isWord([ '</script' ]))) {
+            $length = $wordLength;
+            $this->setState('Html');
+        }
+        return $length;
+    }
+
     private function parseText($letter)
     {
         $length = 1;
@@ -81,6 +164,8 @@ class Typograph
             }
             $this->processQuotes($length);
             ++$this->word;
+        } elseif ($letter == '<') {
+            return $this->beginHtml($letter);
         } elseif ($this->isPunct($letter)) {
             $this->word = 0;
         } else {
@@ -97,7 +182,7 @@ class Typograph
         for ($this->index = 0; $this->index < $this->length;) {
             $letter = $this->string[$this->index];
 
-            $this->index += call_user_func([ $this, 'parse'.$this->state ], $letter);
+            $this->index += call_user_func([ $this, 'parse'.$this->getState() ], $letter);
         }
         return $this->build();
     }
