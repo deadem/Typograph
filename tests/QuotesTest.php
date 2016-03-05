@@ -26,86 +26,89 @@ class QuotesTest extends \PHPUNIT_Framework_Testcase
 закон "Сегодня охране".
 закон &laquo;Сегодня охране&raquo;.
 
-some code to "change". for real
-some code to &laquo;change&raquo;. for real
+Сегодня охране охране "сочетание". охране real
+Сегодня охране охране &laquo;сочетание&raquo;. охране real
+
+охране real.
+охране real.
 
 сочетание "кавычек"
 сочетание &laquo;кавычек&raquo;
 
-button "English Pages".
-button &laquo;English Pages&raquo;.
+Сегодня "English Pages".
+Сегодня &laquo;English Pages&raquo;.
 
-button "English Pages"?
-button &laquo;English Pages&raquo;?
+Сегодня "English Pages"?
+Сегодня &laquo;English Pages&raquo;?
 
-word "go out" doubleword
-word &laquo;go out&raquo; doubleword
+сочетание "сочетание сочетание" doubleсочетание
+сочетание &laquo;сочетание сочетание&raquo; doubleсочетание
 
-word "go out"
-word &laquo;go out&raquo;
+сочетание "сочетание сочетание"
+сочетание &laquo;сочетание сочетание&raquo;
 
-"go out!"
-&laquo;go out!&raquo;
+"сочетание сочетание!"
+&laquo;сочетание сочетание!&raquo;
 
-"go out?"
-&laquo;go out?&raquo;
+"сочетание сочетание?"
+&laquo;сочетание сочетание?&raquo;
 
-"go out."
-&laquo;go out.&raquo;
+"сочетание сочетание."
+&laquo;сочетание сочетание.&raquo;
 
-123 "go out!"
-123 &laquo;go out!&raquo;
+сочетание "сочетание сочетание!"
+сочетание &laquo;сочетание сочетание!&raquo;
 
-123 "go out?"
-123 &laquo;go out?&raquo;
+сочетание "сочетание сочетание?"
+сочетание &laquo;сочетание сочетание?&raquo;
 
-123 "go out."
-123 &laquo;go out.&raquo;
+сочетание "сочетание сочетание."
+сочетание &laquo;сочетание сочетание.&raquo;
 
-123 "go out!" 123
-123 &laquo;go out!&raquo; 123
+сочетание "сочетание сочетание!" сочетание
+сочетание &laquo;сочетание сочетание!&raquo; сочетание
 
-123 "go out?" 232
-123 &laquo;go out?&raquo; 232
+сочетание "сочетание сочетание?" 1728371892378912
+сочетание &laquo;сочетание сочетание?&raquo; 1728371892378912
 
-123 "go out." 321
-123 &laquo;go out.&raquo; 321
+сочетание "сочетание сочетание." 2390924092394
+сочетание &laquo;сочетание сочетание.&raquo; 2390924092394
 
-"go out!" 123
-&laquo;go out!&raquo; 123
+"сочетание сочетание!" сочетание
+&laquo;сочетание сочетание!&raquo; сочетание
 
-"go out?" 232
-&laquo;go out?&raquo; 232
+"сочетание сочетание?" 1728371892378912
+&laquo;сочетание сочетание?&raquo; 1728371892378912
 
-"go out." 321
-&laquo;go out.&raquo; 321
+"сочетание сочетание." 2390924092394
+&laquo;сочетание сочетание.&raquo; 2390924092394
 
-word "quoted" word
-word &laquo;quoted&raquo; word
+сочетание "сочетание" сочетание
+сочетание &laquo;сочетание&raquo; сочетание
 
-"quoted" word word
-&laquo;quoted&raquo; word word
+"сочетание" сочетание сочетание
+&laquo;сочетание&raquo; сочетание сочетание
 
-word word "quoted"
-word word &laquo;quoted&raquo;
+сочетание сочетание "сочетание"
+сочетание сочетание &laquo;сочетание&raquo;
 
-word "quo ted" word
-word &laquo;quo ted&raquo; word
+сочетание "сочетание сочетание" сочетание
+сочетание &laquo;сочетание сочетание&raquo; сочетание
 
-"quo ted" word word
-&laquo;quo ted&raquo; word word
+"сочетание сочетание" сочетание сочетание
+&laquo;сочетание сочетание&raquo; сочетание сочетание
 
-word word "quo ted"
-word word &laquo;quo ted&raquo;
+сочетание сочетание "сочетание сочетание"
+сочетание сочетание &laquo;сочетание сочетание&raquo;
 
 "Европа-Азия"
 &laquo;Европа-Азия&raquo;
 
-"ICQ #"
-&laquo;ICQ #&raquo;
+"номер ICQшечки #"
+&laquo;номер ICQшечки #&raquo;
 
-"c:\www\sites\"
-&laquo;c:\www\sites\&raquo;
+"wwwwwwwww:\wwwwwwwww\sitessites\"
+&laquo;wwwwwwwww:\wwwwwwwww\sitessites\&raquo;
 
 "Справка 09"
 &laquo;Справка 09&raquo;
@@ -116,8 +119,8 @@ word word &laquo;quo ted&raquo;
 "новый тариф*"
 &laquo;новый тариф*&raquo;
 
-"Star Flyer Inc."
-&laquo;Star Flyer Inc.&raquo;
+"StarFlyerInc."
+&laquo;StarFlyerInc.&raquo;
 
 "слово", слово
 &laquo;слово&raquo;, слово
@@ -125,15 +128,14 @@ word word &laquo;quo ted&raquo;
 слово, "слово"
 слово, &laquo;слово&raquo;
 
-ОТветь. "бла бла" вап. Бла "ввв"
-ОТветь. &laquo;бла бла&raquo; вап. Бла &laquo;ввв&raquo;
-
+Ответь. "блабла" варррры. Блайцу "ввв"
+Ответь. &laquo;блабла&raquo; варррры. Блайцу &laquo;ввв&raquo;
 
 "Приветствуем Вас"
 &laquo;Приветствуем Вас&raquo;
 
-Она добавила: "самый любимый "эсмеральда"".
-Она добавила: &laquo;самый любимый &bdquo;эсмеральда&ldquo;&raquo;.
+добавила: "самый любимый "эсмеральда"".
+добавила: &laquo;самый любимый &bdquo;эсмеральда&ldquo;&raquo;.
 
 "Фирма "Терминал", "ОблСнаб"
 &laquo;Фирма &bdquo;Терминал&ldquo;, &bdquo;ОблСнаб&ldquo;
@@ -141,11 +143,11 @@ word word &laquo;quo ted&raquo;
 рассказы "Сердце", "Эвакуация", "Майский жук".
 рассказы &laquo;Сердце&raquo;, &laquo;Эвакуация&raquo;, &laquo;Майский жук&raquo;.
 
-абырвалг: "АААААААБ ЫЫЫРРР "ээээ" алг!" фывфыв
-абырвалг: &laquo;АААААААБ ЫЫЫРРР &bdquo;ээээ&ldquo; алг!&raquo; фывфыв
+абырвалг: "АААААААБ ЫЫЫРРР "ээээ" алгоритм!" фывфыв
+абырвалг: &laquo;АААААААБ ЫЫЫРРР &bdquo;ээээ&ldquo; алгоритм!&raquo; фывфыв
 
-"word "word" word"
-&laquo;word &bdquo;word&ldquo; word&raquo;
+"сочетание "сочетание" сочетание"
+&laquo;сочетание &bdquo;сочетание&ldquo; сочетание&raquo;
 
 ("слово")
 (&laquo;слово&raquo;)
@@ -153,8 +155,8 @@ word word &laquo;quo ted&raquo;
 <div>asd</div><div>"test"</div>asd
 <div>asd</div><div>&laquo;test&raquo;</div>asd
 
-Неконвертируются &quot;quot&quot; кавычки велочки, адолжны.
-Неконвертируются &laquo;quot&raquo; кавычки велочки, адолжны.
+Неконвертируются &quot;алгоритм&quot; кавычки велочки, адолжны.
+Неконвертируются &laquo;алгоритм&raquo; кавычки велочки, адолжны.
 
 Неконвертируются &laquo;всякие&laquo; кавычки
 Неконвертируются &laquo;всякие&raquo; кавычки
@@ -168,7 +170,7 @@ word word &laquo;quo ted&raquo;
 <b>"слово"</b> <b>"слово"</b>
 <b>&laquo;слово&raquo;</b> <b>&laquo;слово&raquo;</b>
 
-&bdquo;Клиника ФГУ &laquo;КРЭП&raquo; согласно Лицензии&ldquo;
-&laquo;Клиника ФГУ &bdquo;КРЭП&ldquo; согласно Лицензии&raquo;
+&bdquo;Клиника ФГУалгоритм &laquo;КРЭП&raquo; согласно Лицензии&ldquo;
+&laquo;Клиника ФГУалгоритм &bdquo;КРЭП&ldquo; согласно Лицензии&raquo;
 EOF;
 }

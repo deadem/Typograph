@@ -12,14 +12,20 @@ class Typograph
     private $map = [];
 
 
-    private $word = 0;
-    private $quotesLevel = 0;
+    private $word               = 0;
+    private $smallWordPosition  = -1;
+    private $smallWordsCount    = 0;
+    private $quotesLevel        = 0;
+    private $htmlTagStart       = -1;
 
     private $replace = [
-      'OpenQuote' => '&laquo;',
-      'CloseQuote' => '&raquo;',
-      'OpenSubQuote' => '&bdquo;',
-      'CloseSubQuote' => '&ldquo;',
+      'OpenQuote'       => '&laquo;',
+      'CloseQuote'      => '&raquo;',
+      'OpenSubQuote'    => '&bdquo;',
+      'CloseSubQuote'   => '&ldquo;',
+      'OpenNowrap'      => '<nowrap>',
+      'CloseNowrap'     => '</nowrap>',
+      'Ignore'          => ''
     ];
 
     private function __construct()
@@ -34,6 +40,16 @@ class Typograph
     private function getState()
     {
         return $this->state;
+    }
+
+    private function action($command, $index = false)
+    {
+        $index = ($index === false) ? $this->index : $index;
+
+        if (!isset($this->map[$index])) {
+            $this->map[$index] = [];
+        }
+        $this->map[$index] += $command;
     }
 
     private function next($increment = 1, $length = 1)
@@ -65,26 +81,13 @@ class Typograph
         return false;
     }
 
-    private function processQuotes($length)
-    {
-        $next = $this->next($length);
-
-        if ((!$this->isSpace($next) && !$this->isPunct($next)) || ($this->isPunct($next) && $this->word == 0)) {
-            $this->map[$this->index] = ($this->quotesLevel == 0) ? [ 'OpenQuote' => $length ] : [ 'OpenSubQuote' => $length ];
-            ++$this->quotesLevel;
-        } else {
-            --$this->quotesLevel;
-            $this->map[$this->index] = ($this->quotesLevel == 0) ? [ 'CloseQuote' => $length ] : [ 'CloseSubQuote' => $length ];
-        }
-    }
-
     private function beginHtml($letter)
     {
         $letter;
 
         $length = 1;
         $wordLength = 0;
-        $tag = '';
+        $this->htmlTagStart = $this->index;
 
         if ($wordLength = $this->isWord([ '<!--' ])) {
             $length = $wordLength;
@@ -92,8 +95,25 @@ class Typograph
         } elseif ($wordLength = $this->isWord([ '<script' ])) {
             $length = $wordLength;
             $this->setState('Script');
+        } elseif ($wordLength = $this->isWord([ '<nowrap' ])) {
+            $length = $wordLength;
+            $this->setState('Nowrap');
+        } elseif ($this->isWord([ '</nowrap' ])) {
+            $length = $wordLength;
+            $this->setState('Nowrap');
         } else {
             $this->setState('Html');
+        }
+        return $length;
+    }
+
+    private function parseNowrap($letter)
+    {
+        // внутри nowrap не разбираем атрибуты
+        $length = 1;
+        if ($letter == '>') {
+            $this->action([ 'Ignore' => $this->index - $this->htmlTagStart + 1 ], $this->htmlTagStart);
+            $this->setState('Text');
         }
         return $length;
     }
@@ -151,24 +171,68 @@ class Typograph
         return $length;
     }
 
+    private function processQuotes($length)
+    {
+        $next = $this->next($length);
+
+        if ((!$this->isSpace($next) && !$this->isPunct($next)) || ($this->isPunct($next) && $this->word == 0)) {
+            $this->action(($this->quotesLevel == 0) ? [ 'OpenQuote' => $length ] : [ 'OpenSubQuote' => $length ]);
+            ++$this->quotesLevel;
+        } else {
+            --$this->quotesLevel;
+            $this->action(($this->quotesLevel == 0) ? [ 'CloseQuote' => $length ] : [ 'CloseSubQuote' => $length ]);
+        }
+    }
+
+    private function processNowrap($last = false)
+    {
+        static $maxLetters = 6;
+
+        print implode($this->string).' --> '.$this->smallWordPosition.' -- '.$this->smallWordsCount.' --word: '.$this->word."\n";
+        if ($this->smallWordsCount > 0 && (($last && ($this->smallWordsCount > 0)) || $this->word > $maxLetters)) {
+            if ($this->smallWordPosition >= 0) {
+                $this->action([ 'OpenNowrap' => 0 ], $this->smallWordPosition);
+                $this->action([ 'CloseNowrap' => 0 ]);
+                $this->smallWordPosition = -1;
+                $this->smallWordsCount = 0;
+            }
+        } else {
+            if ($this->word > $maxLetters) {
+                $this->smallWordPosition = -1;
+                $this->smallWordsCount = 0;
+            } elseif ($this->word > 0) {
+                ++$this->smallWordsCount;
+            }
+        }
+    }
+
     private function parseText($letter)
     {
         $length = 1;
         $wordLength = 0;
 
-        if ($this->isSpace($letter)) {
+        if ($letter == '<') {
+            return $this->beginHtml($letter);
+        } elseif ($this->isSpace($letter)) {
+            print 'space ';
+            $this->processNowrap();
             $this->word = 0;
         } elseif ($letter == '"' || $wordLength = $this->isWord([ '&quot;', '&laquo;', '&raquo;', '&bdquo;', '&ldquo;' ])) {
             if ($wordLength) {
                 $length = $wordLength;
             }
             $this->processQuotes($length);
-            ++$this->word;
-        } elseif ($letter == '<') {
-            return $this->beginHtml($letter);
+            //++$this->word;
         } elseif ($this->isPunct($letter)) {
+            print 'punct ';
+            if ($letter != '.' && $letter != '?' && $letter != '!') {
+                $this->processNowrap();
+            }
             $this->word = 0;
         } else {
+            if ($this->word == 0 && $this->smallWordPosition == -1) {
+                $this->smallWordPosition = $this->index;
+            }
             ++$this->word;
         }
         return $length;
@@ -184,20 +248,27 @@ class Typograph
 
             $this->index += call_user_func([ $this, 'parse'.$this->getState() ], $letter);
         }
+        $this->processNowrap(true);
         return $this->build();
     }
 
     public function build()
     {
         $result = '';
-        for ($index = 0; $index < $this->length;) {
-            if (!isset($this->map[$index])) {
-                $result .= $this->string[$index++];
-            } else {
+        for ($index = 0; $index <= $this->length;) {
+            $step = 0;
+            if (isset($this->map[$index])) {
                 foreach ($this->map[$index] as $key => $value) {
                     $result .= $this->replace[$key];
-                    $index += $value;
+                    $step = max($step, $value);
                 }
+                $index += $step;
+            }
+            if ($step == 0) {
+                if ($index < $this->length) {
+                    $result .= $this->string[$index];
+                }
+                ++$index;
             }
         }
         return $result;
