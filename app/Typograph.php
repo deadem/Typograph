@@ -195,7 +195,7 @@ class Typograph
         }
         $this->lastNowrapIndex = $this->index;
 
-        //print implode($this->string).' --> '.$this->smallWordPosition.' -- '.$this->smallWordsCount.' --word: '.$this->word."\n";
+        // print implode($this->string).' --> '.$this->smallWordPosition.' -- '.$this->smallWordsCount.' --word: '.$this->word."\n";
         if ($this->smallWordsCount > 0 && ($last || $this->word > $maxLetters)) {
             if ($this->smallWordPosition >= 0) {
                 $this->action([ 'OpenNowrap' => 0 ], $this->smallWordPosition);
@@ -223,7 +223,7 @@ class Typograph
         } elseif ($this->isSpace($letter)) {
             $this->processNowrap();
             $this->word = 0;
-        } elseif ($letter == '"' || $wordLength = $this->isWord([ '&quot;', '&laquo;', '&raquo;', '&bdquo;', '&ldquo;' ])) {
+        } elseif ($letter == '"' || ($letter == '&' && $wordLength = $this->isWord([ '&quot;', '&laquo;', '&raquo;', '&bdquo;', '&ldquo;' ]))) {
             if ($wordLength) {
                 $length = $wordLength;
             }
