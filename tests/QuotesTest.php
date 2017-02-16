@@ -4,7 +4,7 @@ namespace Test;
 
 use DJEM\Typograph;
 
-class QuotesTest extends \PHPUNIT_Framework_Testcase
+class QuotesTest extends \PHPUnit_Framework_TestCase
 {
     public function testQuotes()
     {
