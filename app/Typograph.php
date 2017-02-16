@@ -1,6 +1,6 @@
 <?php
 
-namespace DJEM;
+namespace DJEM\Typograph;
 
 class Typograph
 {
