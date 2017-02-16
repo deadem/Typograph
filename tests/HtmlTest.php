@@ -4,7 +4,7 @@ namespace Test;
 
 use DJEM\Typograph;
 
-class HtmlTest extends \PHPUNIT_Framework_Testcase
+class HtmlTest extends \PHPUnit_Framework_TestCase
 {
     public function testHtml()
     {
