@@ -1,6 +1,6 @@
 # Typograph
 
-[![Build Status](https://travis-ci.org/deadem/Typograph.svg)](https://travis-ci.org/deadem/Typograph)
+[![Build Status](https://travis-ci.org/deadem/typograph.svg)](https://travis-ci.org/deadem/typograph)
 
 ## Using:
 ```
