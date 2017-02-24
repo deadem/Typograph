@@ -16,7 +16,7 @@ class QuotesTest extends \PHPUnit_Framework_TestCase
             $second = array_shift($values);
 
             $this->assertEquals($second, Typograph::parse($first));
-        } while (! empty($values));
+        } while (!empty($values));
     }
 
     private $text = <<<EOF

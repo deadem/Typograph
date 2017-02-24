@@ -16,10 +16,10 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             $second = array_shift($values);
 
             $this->assertEquals($second, Typograph::parse($first));
-        } while (! empty($values));
+        } while (!empty($values));
     }
 
-    private $text = <<<EOF
+    private $text = <<<'EOF'
 <b>"слово"</b><b>"слово"</b>
 <b>&laquo;слово&raquo;</b><b>&laquo;слово&raquo;</b>
 

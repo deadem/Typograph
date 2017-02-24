@@ -11,13 +11,12 @@ class Typograph
     private $length = 0;
     private $map = [];
 
-
-    private $word               = 0;
-    private $smallWordPosition  = -1;
-    private $smallWordsCount    = 0;
-    private $quotesLevel        = 0;
-    private $htmlTagStart       = -1;
-    private $lastNobrIndex    = false;
+    private $word = 0;
+    private $smallWordPosition = -1;
+    private $smallWordsCount = 0;
+    private $quotesLevel = 0;
+    private $htmlTagStart = -1;
+    private $lastNobrIndex = false;
 
     private $replace = [
       'OpenQuote'       => '&laquo;',
@@ -26,7 +25,7 @@ class Typograph
       'CloseSubQuote'   => '&ldquo;',
       'OpenNobr'        => '<nobr>',
       'CloseNobr'       => '</nobr>',
-      'Ignore'          => ''
+      'Ignore'          => '',
     ];
 
     private function __construct()
@@ -59,6 +58,7 @@ class Typograph
         while ($this->index + $increment < $this->length && $length-- > 0) {
             $result .= $this->string[$this->index + $increment++];
         }
+
         return $result;
     }
 
@@ -79,6 +79,7 @@ class Typograph
                 return strlen($word);
             }
         }
+
         return false;
     }
 
@@ -90,21 +91,22 @@ class Typograph
         $wordLength = 0;
         $this->htmlTagStart = $this->index;
 
-        if ($wordLength = $this->isWord([ '<!--' ])) {
+        if ($wordLength = $this->isWord(['<!--'])) {
             $length = $wordLength;
             $this->setState('Comment');
-        } elseif ($wordLength = $this->isWord([ '<script' ])) {
+        } elseif ($wordLength = $this->isWord(['<script'])) {
             $length = $wordLength;
             $this->setState('Script');
-        } elseif ($wordLength = $this->isWord([ '<nobr' ])) {
+        } elseif ($wordLength = $this->isWord(['<nobr'])) {
             $length = $wordLength;
             $this->setState('Nobr');
-        } elseif ($this->isWord([ '</nobr' ])) {
+        } elseif ($this->isWord(['</nobr'])) {
             $length = $wordLength;
             $this->setState('Nobr');
         } else {
             $this->setState('Html');
         }
+
         return $length;
     }
 
@@ -113,9 +115,10 @@ class Typograph
         // внутри nobr не разбираем атрибуты
         $length = 1;
         if ($letter == '>') {
-            $this->action([ 'Ignore' => $this->index - $this->htmlTagStart + 1 ], $this->htmlTagStart);
+            $this->action(['Ignore' => $this->index - $this->htmlTagStart + 1], $this->htmlTagStart);
             $this->setState('Text');
         }
+
         return $length;
     }
 
@@ -129,6 +132,7 @@ class Typograph
         } elseif ($letter == '>') {
             $this->setState('Text');
         }
+
         return $length;
     }
 
@@ -138,6 +142,7 @@ class Typograph
         if ($letter == '"') {
             $this->setState('Html');
         }
+
         return $length;
     }
 
@@ -147,6 +152,7 @@ class Typograph
         if ($letter == '\'') {
             $this->setState('Html');
         }
+
         return $length;
     }
 
@@ -154,10 +160,11 @@ class Typograph
     {
         $length = 1;
         $wordLength = 0;
-        if ($letter == '-' && ($wordLength = $this->isWord([ '-->' ]))) {
+        if ($letter == '-' && ($wordLength = $this->isWord(['-->']))) {
             $length = $wordLength;
             $this->setState('Text');
         }
+
         return $length;
     }
 
@@ -165,10 +172,11 @@ class Typograph
     {
         $length = 1;
         $wordLength = 0;
-        if ($letter == '<' && ($wordLength = $this->isWord([ '</script' ]))) {
+        if ($letter == '<' && ($wordLength = $this->isWord(['</script']))) {
             $length = $wordLength;
             $this->setState('Html');
         }
+
         return $length;
     }
 
@@ -177,11 +185,11 @@ class Typograph
         $next = $this->next($length);
 
         if ((!$this->isSpace($next) && !$this->isPunct($next)) || ($this->isPunct($next) && $this->word == 0)) {
-            $this->action(($this->quotesLevel == 0) ? [ 'OpenQuote' => $length ] : [ 'OpenSubQuote' => $length ]);
+            $this->action(($this->quotesLevel == 0) ? ['OpenQuote' => $length] : ['OpenSubQuote' => $length]);
             ++$this->quotesLevel;
         } else {
             --$this->quotesLevel;
-            $this->action(($this->quotesLevel == 0) ? [ 'CloseQuote' => $length ] : [ 'CloseSubQuote' => $length ]);
+            $this->action(($this->quotesLevel == 0) ? ['CloseQuote' => $length] : ['CloseSubQuote' => $length]);
         }
     }
 
@@ -198,8 +206,8 @@ class Typograph
         // print implode($this->string).' --> '.$this->smallWordPosition.' -- '.$this->smallWordsCount.' --word: '.$this->word."\n";
         if ($this->smallWordsCount > 0 && ($last || $this->word > $maxLetters)) {
             if ($this->smallWordPosition >= 0) {
-                $this->action([ 'OpenNobr' => 0 ], $this->smallWordPosition);
-                $this->action([ 'CloseNobr' => 0 ]);
+                $this->action(['OpenNobr' => 0], $this->smallWordPosition);
+                $this->action(['CloseNobr' => 0]);
                 $this->smallWordPosition = -1;
                 $this->smallWordsCount = 0;
             }
@@ -223,7 +231,7 @@ class Typograph
         } elseif ($this->isSpace($letter)) {
             $this->processNobr();
             $this->word = 0;
-        } elseif ($letter == '"' || ($letter == '&' && $wordLength = $this->isWord([ '&quot;', '&laquo;', '&raquo;', '&bdquo;', '&ldquo;' ]))) {
+        } elseif ($letter == '"' || ($letter == '&' && $wordLength = $this->isWord(['&quot;', '&laquo;', '&raquo;', '&bdquo;', '&ldquo;']))) {
             if ($wordLength) {
                 $length = $wordLength;
             }
@@ -237,6 +245,7 @@ class Typograph
             }
             ++$this->word;
         }
+
         return $length;
     }
 
@@ -248,9 +257,10 @@ class Typograph
         for ($this->index = 0; $this->index < $this->length;) {
             $letter = $this->string[$this->index];
 
-            $this->index += call_user_func([ $this, 'parse'.$this->getState() ], $letter);
+            $this->index += call_user_func([$this, 'parse'.$this->getState()], $letter);
         }
         $this->processNobr(true);
+
         return $this->build();
     }
 
@@ -273,13 +283,15 @@ class Typograph
                 ++$index;
             }
         }
+
         return $result;
     }
 
     public static function parse($string)
     {
-        $typo = new Typograph();
+        $typo = new self();
         $typo->string = str_split($string);
+
         return $typo->run();
     }
 }
