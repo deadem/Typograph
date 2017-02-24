@@ -19,7 +19,7 @@ class ProcessedTest extends \PHPUnit_Framework_TestCase
         } while (! empty($values));
     }
 
-    private $text = <<<EOF
+    private $text = <<<'EOF'
 «толстого клиента»
 &laquo;толстого клиента&raquo;
 
