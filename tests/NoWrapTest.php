@@ -6,7 +6,7 @@ use DJEM\Typograph\Typograph;
 
 class NoWrapTest extends \PHPUnit_Framework_TestCase
 {
-    public function testHtml()
+    public function testNoWrap()
     {
         $values = preg_split('/\r?\n/', $this->text);
         do {
@@ -26,8 +26,8 @@ class NoWrapTest extends \PHPUnit_Framework_TestCase
 кое-как
 <nobr>кое-как</nobr>
 
-Ну, не знаю.
-<nobr>Ну, не знаю</nobr>.
+Ну, я не знаю.
+<nobr>Ну, я не знаю</nobr>.
 
 ну вот и всё
 <nobr>ну вот и всё</nobr>
@@ -57,7 +57,7 @@ class NoWrapTest extends \PHPUnit_Framework_TestCase
 &laquo;номер <nobr>ICQ 123&raquo;</nobr>
 
 "c:\www\sites\"
-&laquo;<nobr>c:\www\sites\&raquo;</nobr>
+&laquo;<nobr>c:\www\sites</nobr>\&raquo;
 
 "Справка 09"
 &laquo;Справка 09&raquo;
@@ -69,7 +69,7 @@ class NoWrapTest extends \PHPUnit_Framework_TestCase
 &laquo;новый тариф*&raquo;
 
 "Star Flyer Inc."
-&laquo;<nobr>Star Flyer Inc.&raquo;</nobr>
+&laquo;Star Flyer Inc.&raquo;
 
 "слово", слово
 &laquo;слово&raquo;, слово
@@ -101,8 +101,8 @@ class NoWrapTest extends \PHPUnit_Framework_TestCase
 <div>asd</div><div>"test"</div>asd
 <div>asd</div><div>&laquo;test&raquo;</div>asd
 
-Неконвертируются &quot;quot&quot; кавычки велочки, адолжны.
-Неконвертируются &laquo;<nobr>quot&raquo; кавычки</nobr> велочки, адолжны.
+Неконвертируются &quot;quote&quot; кавычки в елочки, а должны.
+Неконвертируются &laquo;quote&raquo; кавычки <nobr>в елочки</nobr>, <nobr>а должны</nobr>.
 
 Неконвертируются &laquo;всякие&laquo; кавычки
 Неконвертируются &laquo;всякие&raquo; кавычки

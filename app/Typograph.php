@@ -18,6 +18,8 @@ class Typograph
     private $htmlTagStart = -1;
     private $lastNobrIndex = false;
 
+    private $maxSmallWordLetters = 3;
+
     private $replace = [
       'OpenQuote'       => '&laquo;',
       'CloseQuote'      => '&raquo;',
@@ -64,12 +66,12 @@ class Typograph
 
     private function isSpace($letter)
     {
-        return preg_match('/[[:space:]]/', $letter) || $letter == '';
+        return preg_match('/[[:space:]]/u', $letter) || $letter == '';
     }
 
     private function isPunct($letter)
     {
-        return preg_match('/[[:punct:]]/', $letter);
+        return preg_match('/[[:punct:]]/u', $letter);
     }
 
     private function isWord($words)
@@ -195,16 +197,10 @@ class Typograph
 
     private function processNobr($last = false)
     {
-        static $maxLetters = 6;
-
-        if ($last && $this->lastNobrIndex + 1 >= $this->length) {
-            // проверка, чтобы не запускать повторно анализатор, если он уже был вызван на последнем символе
-            return;
-        }
         $this->lastNobrIndex = $this->index;
 
         // print implode($this->string).' --> '.$this->smallWordPosition.' -- '.$this->smallWordsCount.' --word: '.$this->word."\n";
-        if ($this->smallWordsCount > 0 && ($last || $this->word > $maxLetters)) {
+        if ($this->smallWordsCount > 0 && (($last && $this->smallWordsCount > 1) || $this->word > $this->maxSmallWordLetters)) {
             if ($this->smallWordPosition >= 0) {
                 $this->action(['OpenNobr' => 0], $this->smallWordPosition);
                 $this->action(['CloseNobr' => 0]);
@@ -212,7 +208,7 @@ class Typograph
                 $this->smallWordsCount = 0;
             }
         } else {
-            if ($this->word > $maxLetters) {
+            if ($this->word > $this->maxSmallWordLetters) {
                 $this->smallWordPosition = -1;
                 $this->smallWordsCount = 0;
             } elseif ($this->word > 0) {
@@ -231,7 +227,10 @@ class Typograph
         } elseif ($this->isSpace($letter)) {
             $this->processNobr();
             $this->word = 0;
-        } elseif ($letter == '"' || ($letter == '&' && $wordLength = $this->isWord(['&quot;', '&laquo;', '&raquo;', '&bdquo;', '&ldquo;']))) {
+        } elseif ($letter == '"' ||
+            $letter == '«' || $letter == '»' ||
+            ($letter == '&' && $wordLength = $this->isWord(['&quot;', '&laquo;', '&raquo;', '&bdquo;', '&ldquo;']))
+        ) {
             if ($wordLength) {
                 $length = $wordLength;
             }
@@ -259,6 +258,7 @@ class Typograph
 
             $this->index += call_user_func([$this, 'parse'.$this->getState()], $letter);
         }
+        $this->processNobr();
         $this->processNobr(true);
 
         return $this->build();
@@ -290,7 +290,7 @@ class Typograph
     public static function parse($string)
     {
         $typo = new self();
-        $typo->string = str_split($string);
+        $typo->string = preg_split('//u', $string, null, PREG_SPLIT_NO_EMPTY);
 
         return $typo->run();
     }
