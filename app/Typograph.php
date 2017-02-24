@@ -46,7 +46,7 @@ class Typograph
     {
         $index = ($index === false) ? $this->index : $index;
 
-        if (!isset($this->map[$index])) {
+        if (! isset($this->map[$index])) {
             $this->map[$index] = [];
         }
         $this->map[$index] += $command;
@@ -184,7 +184,7 @@ class Typograph
     {
         $next = $this->next($length);
 
-        if ((!$this->isSpace($next) && !$this->isPunct($next)) || ($this->isPunct($next) && $this->word == 0)) {
+        if ((! $this->isSpace($next) && ! $this->isPunct($next)) || ($this->isPunct($next) && $this->word == 0)) {
             $this->action(($this->quotesLevel == 0) ? ['OpenQuote' => $length] : ['OpenSubQuote' => $length]);
             ++$this->quotesLevel;
         } else {
