@@ -8,4 +8,11 @@ php:
 
 before_script:
   - composer self-update
+  - composer require satooshi/php-coveralls
   - composer update
+
+script: 
+ - phpunit --coverage-clover build/logs/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls -v
