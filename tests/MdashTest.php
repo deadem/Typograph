@@ -4,7 +4,7 @@ namespace Test;
 
 use DJEM\Typograph\Typograph;
 
-class MdashTest extends \PHPUnit_Framework_TestCase
+class MdashTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcessed()
     {

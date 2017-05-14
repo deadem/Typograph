@@ -4,7 +4,7 @@ namespace Test;
 
 use DJEM\Typograph\Typograph;
 
-class NoWrapTest extends \PHPUnit_Framework_TestCase
+class NoWrapTest extends \PHPUnit\Framework\TestCase
 {
     public function testNoWrap()
     {

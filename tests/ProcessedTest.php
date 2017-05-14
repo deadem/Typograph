@@ -4,7 +4,7 @@ namespace Test;
 
 use DJEM\Typograph\Typograph;
 
-class ProcessedTest extends \PHPUnit_Framework_TestCase
+class ProcessedTest extends \PHPUnit\Framework\TestCase
 {
     public function testProcessed()
     {
