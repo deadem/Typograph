@@ -185,6 +185,16 @@ class Typograph
         return $length;
     }
 
+    private function parseAmpEntity($letter)
+    {
+        $length = 1;
+        if ($letter == ';') {
+            $this->setState('Text');
+        }
+
+        return $length;
+    }
+
     private function processQuotes($length)
     {
         $next = $this->next($length);
@@ -247,6 +257,8 @@ class Typograph
             }
             ++$this->word;
             $this->action(['Mdash' => $wordLength - 1]);
+        } elseif ($letter == '&') {
+            $this->setState('AmpEntity');
         } elseif ($this->isPunct($letter)) {
             $this->processNobr();
             $this->word = 0;

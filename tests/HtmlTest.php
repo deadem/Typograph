@@ -47,5 +47,8 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
 
 "<b>слово</b>"<b>"слово"</b>
 &laquo;<b>слово</b>&raquo;<b>&laquo;слово&raquo;</b>
+
+"<b>слово</b>"<b>"сл&amp;ово"</b>
+&laquo;<b>слово</b>&raquo;<b>&laquo;сл&amp;ово&raquo;</b>
 EOF;
 }
