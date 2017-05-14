@@ -249,7 +249,9 @@ class Typograph
             }
             $this->lastTextPosition = $this->index + $length;
             $this->processQuotes($length);
-        } elseif (($letter == '-' && $wordLength = $this->isWord(['- '])) || $letter == '&' && $wordLength = $this->isWord(['&mdash; '])) {
+        } elseif (($letter == '-' && $wordLength = $this->isWord(['- '])) ||
+            $letter == '&' && $wordLength = $this->isWord(['&mdash; ', '&ndash; ')
+        ) {
             $length = $wordLength - 1;
 
             if ($this->word == 0 && $this->smallWordPosition == -1) {
