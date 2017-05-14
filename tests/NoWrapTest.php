@@ -15,7 +15,11 @@ class NoWrapTest extends \PHPUnit\Framework\TestCase
             } while (empty($first));
             $second = array_shift($values);
 
-            $this->assertEquals($second, Typograph::parse($first));
+            $parsed = Typograph::parse($first);
+            $this->assertEquals($second, $parsed);
+
+            $parsed = Typograph::parse($parsed);
+            $this->assertEquals($second, $parsed);
         } while (! empty($values));
     }
 
