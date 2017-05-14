@@ -35,6 +35,9 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
 <b>"</b>слово<b attr="<test>">"</b><b>"слово"</b>
 <b>&laquo;</b>слово<b attr="<test>">&raquo;</b><b>&laquo;слово&raquo;</b>
 
+<b>"</b>слово<b attr='<test>'>"</b><b>"слово"</b>
+<b>&laquo;</b>слово<b attr='<test>'>&raquo;</b><b>&laquo;слово&raquo;</b>
+
 <b>"сло<!--script test='>'>во"</b><b>"сло</script -->во"</b>
 <b>&laquo;сло<!--script test='>'>во"</b><b>"сло</script -->во&raquo;</b>
 
