@@ -12,6 +12,7 @@ class Typograph
     private $map = [];
 
     private $word = 0;
+    private $lastTextPosition = 0;
     private $smallWordPosition = -1;
     private $smallWordsCount = 0;
     private $quotesLevel = 0;
@@ -21,13 +22,15 @@ class Typograph
     private $maxSmallWordLetters = 3;
 
     private $replace = [
-      'OpenQuote'       => '&laquo;',
-      'CloseQuote'      => '&raquo;',
-      'OpenSubQuote'    => '&bdquo;',
-      'CloseSubQuote'   => '&ldquo;',
-      'OpenNobr'        => '<nobr>',
-      'CloseNobr'       => '</nobr>',
-      'Ignore'          => '',
+        // sorted by priority
+        'OpenQuote'       => '&laquo;',
+        'CloseQuote'      => '&raquo;',
+        'OpenSubQuote'    => '&bdquo;',
+        'CloseSubQuote'   => '&ldquo;',
+        'Mdash'           => '&mdash;',
+        'Ignore'          => '',
+        'OpenNobr'        => '<nobr>',
+        'CloseNobr'       => '</nobr>',
     ];
 
     private function __construct()
@@ -203,7 +206,7 @@ class Typograph
         if ($this->smallWordsCount > 0 && (($last && $this->smallWordsCount > 1) || $this->word > $this->maxSmallWordLetters)) {
             if ($this->smallWordPosition >= 0) {
                 $this->action(['OpenNobr' => 0], $this->smallWordPosition);
-                $this->action(['CloseNobr' => 0]);
+                $this->action(['CloseNobr' => 0], $this->lastTextPosition);
                 $this->smallWordPosition = -1;
                 $this->smallWordsCount = 0;
             }
@@ -234,7 +237,14 @@ class Typograph
             if ($wordLength) {
                 $length = $wordLength;
             }
+            $this->lastTextPosition = $this->index + $length;
             $this->processQuotes($length);
+        } elseif (($letter == '-' && $wordLength = $this->isWord(['- '])) || $letter == '&' && $wordLength = $this->isWord(['&mdash; '])) {
+            if ($this->word == 0 && $this->smallWordPosition == -1) {
+                $this->smallWordPosition = $this->index;
+            }
+            ++$this->word;
+            $this->action(['Mdash' => $wordLength - 1]);
         } elseif ($this->isPunct($letter)) {
             $this->processNobr();
             $this->word = 0;
@@ -243,6 +253,7 @@ class Typograph
                 $this->smallWordPosition = $this->index;
             }
             ++$this->word;
+            $this->lastTextPosition = $this->index + 1;
         }
 
         return $length;
@@ -267,9 +278,14 @@ class Typograph
     public function build()
     {
         $result = '';
+        $replaceKeys = array_keys($this->replace);
+
         for ($index = 0; $index <= $this->length;) {
             $step = 0;
             if (isset($this->map[$index])) {
+                uksort($this->map[$index], function ($a, $b) use ($replaceKeys) {
+                    return array_search($b, $replaceKeys) - array_search($a, $replaceKeys);
+                });
                 foreach ($this->map[$index] as $key => $value) {
                     $result .= $this->replace[$key];
                     $step = max($step, $value);
