@@ -25,25 +25,25 @@ class NoWrapTest extends \PHPUnit\Framework\TestCase
 
     private $text = <<<EOF
 О компании
-<nobr>О компании</nobr>
+О&nbsp;компании
 
 кое-как
-<nobr>кое-как</nobr>
+кое-как
 
 Ну, я не знаю.
-<nobr>Ну, я не знаю</nobr>.
+Ну, я&nbsp;не&nbsp;знаю.
 
 ну вот и всё
-<nobr>ну вот и всё</nobr>
+ну&nbsp;вот&nbsp;и&nbsp;всё
 
 Лолики ну вот и всё
-Лолики <nobr>ну вот и всё</nobr>
+Лолики ну&nbsp;вот&nbsp;и&nbsp;всё
 
 Лолики. ну вот и всё
-Лолики. <nobr>ну вот и всё</nobr>
+Лолики. ну&nbsp;вот&nbsp;и&nbsp;всё
 
 <nobr>О компании</nobr>
-<nobr>О компании</nobr>
+О&nbsp;компании
 
 Сегодня будет создан
 Сегодня будет создан
@@ -58,10 +58,10 @@ class NoWrapTest extends \PHPUnit\Framework\TestCase
 &laquo;Европа-Азия&raquo;
 
 "номер ICQ 123"
-&laquo;номер <nobr>ICQ 123&raquo;</nobr>
+&laquo;номер ICQ&nbsp;123&raquo;
 
 "c:\www\sites\"
-&laquo;<nobr>c:\www\sites</nobr>\&raquo;
+&laquo;c:\www\sites\&raquo;
 
 "Справка 09"
 &laquo;Справка 09&raquo;
@@ -82,13 +82,13 @@ class NoWrapTest extends \PHPUnit\Framework\TestCase
 слово, &laquo;слово&raquo;
 
 Ответчик. "бла бла" вап. Бла "ввв"
-Ответчик. &laquo;<nobr>бла бла&raquo; вап. Бла &laquo;ввв&raquo;</nobr>
+Ответчик. &laquo;бла&nbsp;бла&raquo;&nbsp;вап. Бла&nbsp;&laquo;ввв&raquo;
 
 "Приветствуем Вас"
 &laquo;Приветствуем Вас&raquo;
 
 Она добавила: "самый любимый "эсмеральда"".
-<nobr>Она добавила</nobr>: &laquo;самый любимый &bdquo;эсмеральда&ldquo;&raquo;.
+Она&nbsp;добавила: &laquo;самый любимый &bdquo;эсмеральда&ldquo;&raquo;.
 
 "Фирма "Терминал", "ОблСнаб"
 &laquo;Фирма &bdquo;Терминал&ldquo;, &bdquo;ОблСнаб&ldquo;
@@ -97,7 +97,7 @@ class NoWrapTest extends \PHPUnit\Framework\TestCase
 рассказы &laquo;Сердце&raquo;, &laquo;Эвакуация&raquo;, &laquo;Майский жук&raquo;.
 
 абырвалг: "АААААААБ ЫЫЫРРР "ээээ" алг!" фывфыв
-абырвалг: &laquo;АААААААБ ЫЫЫРРР &bdquo;ээээ&ldquo; <nobr>алг!&raquo; фывфыв</nobr>
+абырвалг: &laquo;АААААААБ ЫЫЫРРР &bdquo;ээээ&ldquo; алг!&raquo; фывфыв
 
 ("слово")
 (&laquo;слово&raquo;)
@@ -106,7 +106,7 @@ class NoWrapTest extends \PHPUnit\Framework\TestCase
 <div>asd</div><div>&laquo;test&raquo;</div>asd
 
 Неконвертируются &quot;quote&quot; кавычки в елочки, а должны.
-Неконвертируются &laquo;quote&raquo; кавычки <nobr>в елочки</nobr>, <nobr>а должны</nobr>.
+Неконвертируются &laquo;quote&raquo; кавычки в&nbsp;елочки, а&nbsp;должны.
 
 Неконвертируются &laquo;всякие&laquo; кавычки
 Неконвертируются &laquo;всякие&raquo; кавычки
@@ -121,6 +121,6 @@ class NoWrapTest extends \PHPUnit\Framework\TestCase
 <b>&laquo;слово&raquo;</b> <b>&laquo;слово&raquo;</b>
 
 &bdquo;Клиника ФГУ &laquo;КРЭП&raquo; согласно Лицензии&ldquo;
-&laquo;Клиника <nobr>ФГУ &bdquo;КРЭП&ldquo;</nobr> согласно Лицензии&raquo;
+&laquo;Клиника ФГУ&nbsp;&bdquo;КРЭП&ldquo; согласно Лицензии&raquo;
 EOF;
 }
